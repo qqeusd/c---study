@@ -25,7 +25,7 @@ void a1(svec &a)
 
 int main()
 {
-	svec aj;
+	/*svec aj;
 	while (1)
 	{
 		std::cout << "请选择你要进行的操作：\n1.加入\n2.打印\n3.退出并保存\n";
@@ -70,5 +70,5 @@ int main()
 		{
 			std::cout << "输入非法\n";
 		}
-	}
+	}*/
 }

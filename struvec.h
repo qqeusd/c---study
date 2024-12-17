@@ -218,6 +218,56 @@ public:void insert(student& a)
 			write_in(f, p->_right);
 		}
 	}
+	///
+
+	///some thing about read
+	public:void read(std::string ku = "нд╠╬.txt")
+	{
+		std::ifstream file(ku);
+		if (root != nullptr)
+		{
+			std::cout << "the tree can't be create because it is not clear\n";
+			return;
+		}
+		else
+		{
+			root = create(file);
+		}
+	}
+	
+
+	private:student* create(std::ifstream &f)
+	{
+		student* p = new student;
+		std::string ch1;
+		std::getline(f, ch1, ' ');
+		if (ch1 == "#")
+		{
+			p = nullptr;
+			f.ignore();
+		}
+		else
+		{
+			int ma, en, ch, nu;
+			std::string na, ma1, en1, nu1;
+			ch = std::stoi(ch1);
+			std::getline(f, en1, ' ');en = std::stoi(en1);
+			std::getline(f, ma1, ' ');ma = std::stoi(ma1);
+			std::getline(f, nu1, ' ');nu = std::stoi(nu1);
+			std::getline(f, na, ' ');f.ignore();
+			student c(ma, en, ch, nu, na);
+			*p = c;
+		}
+		return p;
+	}
+
+	void create_tree(student *p,std::ifstream &fi)
+    {
+		p->_left = create(fi);
+		if(p->_left != nullptr)create_tree(p->_left, fi);
+		p->_right = create(fi);
+		if(p->_right != nullptr)create_tree(p->_right, fi);
+	}
 };
 
 #endif

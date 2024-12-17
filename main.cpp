@@ -3,11 +3,11 @@
 #include<vector>
 #include "struvec.h"
 
-void a1(svec &a);
-void a1(svec &a)
+void a1(svec& a);
+void a1(svec& a)
 {
 	std::string na;
-	int ch, ma, en,i;
+	int ch, ma, en, i;
 	std::cout << "name: ";
 	std::cin >> na;
 	std::cout << "chinese: ";
@@ -25,18 +25,18 @@ void a1(svec &a)
 
 int main()
 {
-	/*svec aj;
+	svec aj;
 	while (1)
 	{
-		std::cout << "请选择你要进行的操作：\n1.加入\n2.打印\n3.退出并保存\n";
+		std::cout << "请选择你要进行的操作：\n1.加入\n2.打印\n3.退出并保存\n4.读取\n";
 		int key;std::cin >> key;
 		if (key == 1)
 		{
 			a1(aj);
 		}
-		else if(key == 2)
+		else if (key == 2)
 		{
-			zk:
+		zk:
 			std::cout << "请选择打印方式：\n1.详细\n2.简单\n";
 			int k1;std::cin >> k1;
 			if (k1 == 1)
@@ -66,9 +66,17 @@ int main()
 			std::cout << "保存成功";
 			break;
 		}
+		else if (key == 4)
+		{
+			std::string fina;
+			std::cout << "请输入要读出的文件：\n";
+			std::cin >> fina;
+			aj.read(fina);
+			std::cout << "读取成功\n\n";
+		}
 		else
 		{
 			std::cout << "输入非法\n";
 		}
-	}*/
+	}
 }

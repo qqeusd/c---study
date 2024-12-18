@@ -9,6 +9,8 @@ struct student
 	student* _parent;
 	student* _left;//big
 	student* _right;//small
+	student* _last;
+	student* _next;
 	int _math;
 	int _eng;
 	int _chi;
@@ -23,7 +25,9 @@ struct student
 		_name(name),
 		_parent(nullptr),
 		_left(nullptr),
-		_right(nullptr)
+		_right(nullptr),
+		_last(nullptr),
+		_next(nullptr)
 	{
 		_sum = math + eng + chi;
 	}
@@ -36,6 +40,8 @@ struct student
 		_parent(nullptr),
 		_left(nullptr),
 		_right(nullptr),
+		_last(nullptr),
+		_next(nullptr),
 		_name(" ")
 	{
 
@@ -46,13 +52,13 @@ class svec
 private:
 	student* root;
 	int numb;
-	int space;
+	student* root_g;
 public:
 	svec()
 	{
 		root = nullptr;
 		numb = 0;
-		space = 0;
+		root_g = nullptr;
 	}
 
 private:student* app_create(int ma, int en, int ch, int nu, std::string na)
@@ -63,9 +69,11 @@ private:student* app_create(int ma, int en, int ch, int nu, std::string na)
 public:void append(int math, int english, int chinese, int numbs, std::string name)
 {
 	student* ps = app_create(math, english, chinese, numbs, name);
+	rank_g(ps);
 	this->insert(ps);
 }
 
+	  ///insert
 public:void insert(student* p)
 {
 	student* cur = p;
@@ -78,10 +86,59 @@ public:void insert(student* p)
 	{
 		student* p = root;///当前a的位置
 		student* p1 = nullptr;
-		int sons[4] = { cur->_sum,cur->_chi,cur->_math,cur->_numb };
 		while (1)
 		{
-			int pares[4] = { p->_sum,p->_chi,p->_math,p->_numb };
+			if (cur->_name < p->_name)
+			{
+				p1 = p->_right;
+			}
+			else if (cur->_name > p->_name)
+			{
+				p1 = p->_left;
+			}
+			else if (cur->_name == p->_name)
+			{
+				if (cur->_numb < p->_numb)
+				{
+					p1 = p->_right;
+				}
+				else if (cur->_numb > p->_numb)
+				{
+					p1 = p->_left;
+				}
+				else if (cur->_numb == p->_numb)
+				{
+					std::cout << "failed to insert the student,the information has been exit\n";
+					break;
+				}
+			}
+			if (p1 == nullptr)
+			{
+				if (cur->_name < p->_name)
+				{
+					p->_right = cur;
+					break;
+				}
+				else if (cur->_name > p->_name)
+				{
+					p->_left = cur;
+					break;
+				}
+				else if (cur->_name == p->_name)
+				{
+					if (cur->_numb < p->_numb)
+					{
+						p->_right = cur;
+						break;
+					}
+					else if (cur->_numb > p->_numb)
+					{
+						p->_left = cur;
+						break;
+					}
+				}
+			}
+			/*int pares[4] = { p->_sum,p->_chi,p->_math,p->_numb };
 			for (int i = 0; i < 4; i++)
 			{
 				if (sons[i] < pares[i])
@@ -112,7 +169,7 @@ public:void insert(student* p)
 					}
 				}
 				break;
-			}
+			}*/
 			p = p1;
 		}
 	}
@@ -133,32 +190,8 @@ public:void insert(student& a)
 		int sons[4] = { cur->_sum,cur->_chi,cur->_math,cur->_numb };
 		while (1)
 		{
-			if (cur->_name < p->_name)
-			{
-				p1 = p->_right;
-			}
-			else if (cur->_name > p->_name)
-			{
-				p1 = p->_left;
-			}
-			else if (cur->_name == p->_name)
-			{
-				if (cur->_numb < p->_numb)
-				{
-					p1 = p->_right;
-				}
-				else if (cur->_numb > p->_numb)
-				{
-					p1 = p->_left;
-				}
-				else if (cur->_numb == p->_numb)
-				{
-					std::cout << "failed to insert the student,the information has been exit\n";
-					break;
-				}
-			}
-			int pares[4] = { p->_sum,p->_chi,p->_math,p->_numb };
-			/*for (int i = 0; i < 4; i++)
+			/*int pares[4] = { p->_sum,p->_chi,p->_math,p->_numb };
+			for (int i = 0; i < 4; i++)
 			{
 				if (sons[i] < pares[i])
 				{
@@ -189,6 +222,30 @@ public:void insert(student& a)
 				}
 				break;
 			}*/
+			if (cur->_name < p->_name)
+			{
+				p1 = p->_right;
+			}
+			else if (cur->_name > p->_name)
+			{
+				p1 = p->_left;
+			}
+			else if (cur->_name == p->_name)
+			{
+				if (cur->_numb < p->_numb)
+				{
+					p1 = p->_right;
+				}
+				else if (cur->_numb > p->_numb)
+				{
+					p1 = p->_left;
+				}
+				else if (cur->_numb == p->_numb)
+				{
+					std::cout << "failed to insert the student,the information has been exit\n";
+					break;
+				}
+			}
 			if (p1 == nullptr)
 			{
 				if (cur->_name < p->_name)
@@ -216,11 +273,104 @@ public:void insert(student& a)
 	}
 	numb++;
 }
+	  ///rank by grades
+	  
+	void rank_g(student* p)
+	{
+		if (root_g == nullptr)
+		{
+			root_g = p;
+		}
+		else
+		{
+			student* p1 = root_g;
+			while(1)
+			{
+				if (p->_sum > p1->_sum)
+				{
+					if (p1->_last == nullptr)
+					{
+						root_g = p;
+						p->_next = p1;
+						p1->_last = p;
+						break;
+					}
+					else
+					{
+						p1->_last->_next = p;
+						p->_last = p1->_last;
+						p->_next = p1;
+						p1->_last = p;
+						break;
+					}
+				}
+				else if (p->_sum < p1->_sum)
+				{
+					if (p1->_next == nullptr)
+					{
+						p1->_next = p;
+						p->_last = p1;
+						break;
+					}
+					else
+					{
+						p1 = p1->_next;
+					}
+				}
+				else if (p->_sum == p1->_sum)
+				{
+					if (p->_numb > p1->_numb)
+					{
+						if (p1->_last == nullptr)
+						{
+							root_g = p;
+							p->_next = p1;
+							p1->_last = p;
+							break;
+						}
+						else
+						{
+							p1->_last->_next = p;
+							p->_last = p1->_last;
+							p->_next = p1;
+							p1->_last = p;
+							break;
+						}
+					}
+					else if (p->_numb < p1->_numb)
+					{
+						if (p1->_next == nullptr)
+						{
+							p1->_next = p;
+							p->_last = p1;
+							break;
+						}
+						else
+						{
+							p1 = p1->_next;
+						}
+					}
+				}
+			}
+		}
+	}
+
 	  ///imformation out put
 
-	  void print(bool ke)
+	  void print(bool ke,std::string form)
 	  {
-		  print_mid(root, ke);
+		  if(form == "n")
+		  {
+			  print_mid(root, ke);
+		  }
+		  else if (form == "g")
+		  {
+			  print_g(root_g, ke);
+		  }
+		  else
+		  {
+			  std::cout << "illegal input\n\n";
+		  }
 	  }
 
 private:void print_mid(student* p, bool key)
@@ -230,6 +380,15 @@ private:void print_mid(student* p, bool key)
 	print_single(p, key);
 	print_mid(p->_right, key);
 }
+	   void print_g(student*p,bool key)
+	   {
+		   if (p == nullptr)return;
+		   else
+		   {
+			   print_single(p, key);
+			   print_g(p->_next, key);
+		   }
+	   }
 
 	   void print_single(student* p, bool keys)
 	   {
@@ -254,6 +413,7 @@ public:void save(std::string ku = "文本.txt")
 	file.clear();
 	write_in(file, root);
 	file.close();
+	std::cout << "保存成功\n";
 }
 private:void write_in(std::ofstream& f, student* p)
 {
@@ -310,13 +470,14 @@ private:student* create(std::ifstream& f)
 	return p;
 }
 
-	   void create_tree(student* p, std::ifstream& fi)
-	   {
-		   p->_left = create(fi);
-		   if (p->_left != nullptr)create_tree(p->_left, fi);
-		   p->_right = create(fi);
-		   if (p->_right != nullptr)create_tree(p->_right, fi);
-	   }
+    void create_tree(student* p, std::ifstream& fi)
+    {
+		rank_g(p);
+		p->_left = create(fi);
+		if (p->_left != nullptr)create_tree(p->_left, fi);
+		p->_right = create(fi);
+		if (p->_right != nullptr)create_tree(p->_right, fi);
+    }
 };
 
 #endif

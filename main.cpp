@@ -37,17 +37,19 @@ int main()
 		else if (key == 2)
 		{
 		zk:
+			std::cout << "请选择打印顺序：\ng：成绩\nn：姓名\n";
+			std::string k;std::cin >> k;
 			std::cout << "请选择打印方式：\n1.详细\n2.简单\n";
 			int k1;std::cin >> k1;
 			if (k1 == 1)
 			{
-				aj.print(1);
+				aj.print(1,k);
 				std::cout << "打印完毕\n\n";
 				system("pause");
 			}
 			else if (k1 == 2)
 			{
-				aj.print(0);
+				aj.print(0,k);
 				std::cout << "打印完毕\n\n";
 				system("pause");
 			}
@@ -72,7 +74,6 @@ int main()
 			std::cout << "请输入要读出的文件：\n";
 			std::cin >> fina;
 			aj.read(fina);
-			std::cout << "读取成功\n\n";
 		}
 		else
 		{

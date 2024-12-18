@@ -63,7 +63,7 @@ int main()
 			std::cout << "请输入存入文件：";
 			std::cin >> fi;
 			aj.save(fi);
-			std::cout << "保存成功";
+			/*std::cout << "保存成功";*/
 			break;
 		}
 		else if (key == 4)

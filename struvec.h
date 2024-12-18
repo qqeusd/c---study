@@ -43,7 +43,7 @@ struct student
 };
 class svec
 {
-public://////////////////////////////////////////////////////////////////////////////////
+private:
 	student* root;
 	int numb;
 	int space;
@@ -133,8 +133,32 @@ public:void insert(student& a)
 		int sons[4] = { cur->_sum,cur->_chi,cur->_math,cur->_numb };
 		while (1)
 		{
+			if (cur->_name < p->_name)
+			{
+				p1 = p->_right;
+			}
+			else if (cur->_name > p->_name)
+			{
+				p1 = p->_left;
+			}
+			else if (cur->_name == p->_name)
+			{
+				if (cur->_numb < p->_numb)
+				{
+					p1 = p->_right;
+				}
+				else if (cur->_numb > p->_numb)
+				{
+					p1 = p->_left;
+				}
+				else if (cur->_numb == p->_numb)
+				{
+					std::cout << "failed to insert the student,the information has been exit\n";
+					break;
+				}
+			}
 			int pares[4] = { p->_sum,p->_chi,p->_math,p->_numb };
-			for (int i = 0; i < 4; i++)
+			/*for (int i = 0; i < 4; i++)
 			{
 				if (sons[i] < pares[i])
 				{
@@ -164,13 +188,35 @@ public:void insert(student& a)
 					}
 				}
 				break;
+			}*/
+			if (p1 == nullptr)
+			{
+				if (cur->_name < p->_name)
+				{
+					p->_right = cur;
+				}
+				else if (cur->_name > p->_name)
+				{
+					p->_left = cur;
+				}
+				else if (cur->_name == p->_name)
+				{
+					if (cur->_numb < p->_numb)
+					{
+						p->_right = cur;
+					}
+					else if (cur->_numb > p->_numb)
+					{
+						p->_left = cur;
+					}
+				}
 			}
 			p = p1;
 		}
 	}
 	numb++;
 }
-
+	  ///imformation out put
 
 	  void print(bool ke)
 	  {
@@ -234,6 +280,7 @@ public:void read(std::string ku = "文本.txt")
 		root = create(file);
 		create_tree(root, file);
 		file.close();
+		std::cout << "读取成功\n";
 	}
 }
 

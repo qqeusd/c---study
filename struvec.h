@@ -395,6 +395,114 @@ public:void insert(student& a)
 		}
 	}
 
+	///delete
+	public:void pop(std::string name, int numb)
+	{
+		student* p = root;
+		student* record;
+		while (1)
+		{
+			if (p->_left->_name == name && p->_left->_numb == numb)
+			{
+				if (p->_left->_left == nullptr)
+				{
+					record = p->_left;
+					p->_left = p->_left->_right;
+					delete record;
+				}
+				else
+				{
+					record = p->_left;
+					to_right(p->_left->_right, p->_left->_left);
+					p->_left = p->_left->_left;
+					delete record;
+				}
+				return;
+			}
+			if (p->_right->_name == name && p->_right->_numb == numb)
+			{
+				if (p->_right->_right == nullptr)
+				{
+					record = p->_right;
+					p->_right = p->_right->_left;
+					delete record;
+				}
+				else
+				{
+					record = p->_right;
+					to_left(p->_right->_left, p->_right->_right);
+					p->_right = p->_right->_right;
+					delete record;
+				}
+				return;
+			}
+			if (name > p->_name)
+			{
+				if (p->_left == nullptr)
+				{
+					std::cout << "no such a student\n\n";
+					return;
+				}
+				p = p->_left;
+			}
+			else if (name < p->_name)
+			{
+				if (p->_right == nullptr)
+				{
+					std::cout << "no such a student\n\n";
+					return;
+				}
+				p = p->_right;
+			}
+			else if (name == p->_name)
+			{
+				if (numb < p->_numb)
+				{
+					if (p->_right == nullptr)
+					{
+						std::cout << "no such a student\n\n";
+						return;
+					}
+					p = p->_right;
+				}
+				else if (numb > p->_numb)
+				{
+					if (p->_left == nullptr)
+					{
+						std::cout << "no such a student\n\n";
+						return;
+					}
+					p = p->_left;
+				}
+			}
+		}
+	}
+
+	void to_left(student* p, student* p1)
+    {
+		while (1)
+		{
+			if (p1->_left == nullptr)
+			{
+				p1->_left = p;
+				break;
+			}
+			p1 = p1->_left;
+		}
+	}
+	void to_right(student* p, student* p1)
+	{
+		while (1)
+		{
+			if (p1->_right == nullptr)
+			{
+				p1->_right = p;
+				break;
+			}
+			p1 = p1->_right;
+		}
+	}
+
 	  ///imformation out put
 
 	  void print(bool ke,std::string form)
@@ -430,21 +538,21 @@ private:void print_mid(student* p, bool key)
 		   }
 	   }
 
-	   public:void print_single(student* p, bool keys)
-	   {
-		   if (keys)
-		   {
-			   std::cout << p->_name << '\t' << "学号: " << p->_numb << '\n';
-			   std::cout << "语文: " << p->_chi << '\n';
-			   std::cout << "数学: " << p->_math << '\n';
-			   std::cout << "英语: " << p->_eng << '\n';
-			   std::cout << "总分: " << p->_sum << '\n' << std::endl;
-		   }
-		   if (!keys)
-		   {
-			   std::cout << "姓名: " << p->_name << '\t' << "总分: " << p->_sum << '\n';
-		   }
-	   }
+public:void print_single(student* p, bool keys)
+{
+	if (keys)
+	{
+		std::cout << p->_name << '\t' << "学号: " << p->_numb << '\n';
+		std::cout << "语文: " << p->_chi << '\n';
+		std::cout << "数学: " << p->_math << '\n';
+		std::cout << "英语: " << p->_eng << '\n';
+		std::cout << "总分: " << p->_sum << '\n' << std::endl;
+	}
+	if (!keys)
+	{
+		std::cout << "姓名: " << p->_name << '\t' << "总分: " << p->_sum << '\n';
+	}
+}
 
 	   ///something about save
 public:void save(std::string ku = "文本.txt")

@@ -72,6 +72,46 @@ public:void append(int math, int english, int chinese, int numbs, std::string na
 	rank_g(ps);
 	this->insert(ps);
 }
+	  ///find
+public:student* find(std::string name, int numb)
+	{
+		student *p = find_in(name, numb, root);
+		return p;
+	}
+
+	  student* find_in(std::string name,int numb,student *p)
+	  {
+		  while (1)
+		  {
+			  if (p == nullptr)
+			  {
+				  return nullptr;
+			  }
+			  if (name > p->_name)
+			  {
+				  p = p->_left;
+			  }
+			  else if (name < p->_name)
+			  {
+				  p = p->_right;
+			  }
+			  else if (name == p->_name)
+			  {
+				  if (numb == p->_numb)
+				  {
+					  return p;
+				  }
+				  else if (numb < p->_numb)
+				  {
+					  p = p->_right;
+				  }
+				  else if (numb > p->_numb)
+				  {
+					  p = p->_left;
+				  }
+			  }
+		  }
+	  }
 
 	  ///insert
 public:void insert(student* p)
@@ -390,7 +430,7 @@ private:void print_mid(student* p, bool key)
 		   }
 	   }
 
-	   void print_single(student* p, bool keys)
+	   public:void print_single(student* p, bool keys)
 	   {
 		   if (keys)
 		   {

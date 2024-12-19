@@ -28,7 +28,8 @@ int main()
 	svec aj;
 	while (1)
 	{
-		std::cout << "请选择你要进行的操作：\n1.加入\n2.打印\n3.退出并保存\n4.读取\n";
+		std::cout << "————————————————————————————————————————————————\n";
+		std::cout << "1.加入\n2.打印\n3.退出并保存\n4.读取\n5.查找\n请选择你要进行的操作：";
 		int key;std::cin >> key;
 		if (key == 1)
 		{
@@ -73,6 +74,18 @@ int main()
 			std::cout << "请输入要读出的文件：";
 			std::cin >> fina;
 			aj.read(fina);
+		}
+		else if (key == 5)
+		{
+			std::cout << "请输入姓名：";
+			std::string n; std::cin >> n;
+			std::cout << "请输入学号：";
+			int nu; std::cin >> nu;
+			std::cout << '\n';
+			student* p = aj.find(n, nu);
+			if (p == nullptr)std::cout << "没有该学生数据\n\n";
+			else { aj.print_single(p, 1); std::cout << "已打印相关信息\n\n"; }
+			system("pause");
 		}
 		else
 		{

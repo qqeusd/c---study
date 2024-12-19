@@ -25,6 +25,7 @@ void a1(svec& a)
 
 int main()
 {
+	
 	svec aj;
 	while (1)
 	{
@@ -93,7 +94,27 @@ int main()
 			std::string n; std::cin >> n;
 			std::cout << "请输入学号：";
 			int nu; std::cin >> nu;
-			aj.pop(n, nu);
+			std::cout << '\n';
+			student* p = aj.find(n, nu);
+			if (p == nullptr)std::cout << "没有该学生数据\n\n";
+			else { aj.print_single(p, 1);}
+			n:std::cout << "你确定删除该数据？（y/n）：";
+			char oi;std::cin >> oi;
+			if (oi == 'y')
+			{
+				aj.pop_name(n,nu);
+				aj.pop_grades(n, nu);
+				std::cout << "已删除\n\n";
+			}
+			else if (oi == 'n')
+			{
+				
+			}
+			else
+			{
+				std::cout << "非法输入，请重试。\n";
+				goto n;
+			}
 		}
 		else
 		{

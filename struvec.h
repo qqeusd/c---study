@@ -396,84 +396,129 @@ public:void insert(student& a)
 	}
 
 	///delete
-	public:void pop(std::string name, int numb)
+	public:void pop_name(std::string name,int numb)
 	{
 		student* p = root;
-		student* record;
+		std::cout << name << '\t' << numb << '\n';
+		std::cout << p->_name<<'\t'<<p->_numb<<'\n';
+		if (p->_name == name && p->_numb == numb)
+		{
+			std::cout << "??\n";
+			if (p->_left != nullptr)
+			{
+				root = p->_left;
+				to_right(p->_right, p->_left);
+				return;
+			}
+			else if (p->_left == nullptr && p->_right != nullptr)
+			{
+				root = p->_right;
+				return;
+			}
+			else
+			{
+				root = nullptr;
+				return;
+			}
+		}
+		student* p1 = nullptr;
+		student* par;
 		while (1)
 		{
-			if (p->_left->_name == name && p->_left->_numb == numb)
+			if (p->_name < name)
 			{
-				if (p->_left->_left == nullptr)
-				{
-					record = p->_left;
-					p->_left = p->_left->_right;
-					delete record;
-				}
-				else
-				{
-					record = p->_left;
-					to_right(p->_left->_right, p->_left->_left);
-					p->_left = p->_left->_left;
-					delete record;
-				}
-				return;
-			}
-			if (p->_right->_name == name && p->_right->_numb == numb)
-			{
-				if (p->_right->_right == nullptr)
-				{
-					record = p->_right;
-					p->_right = p->_right->_left;
-					delete record;
-				}
-				else
-				{
-					record = p->_right;
-					to_left(p->_right->_left, p->_right->_right);
-					p->_right = p->_right->_right;
-					delete record;
-				}
-				return;
-			}
-			if (name > p->_name)
-			{
-				if (p->_left == nullptr)
+				p1 = p->_left;
+				if (p1 == nullptr)
 				{
 					std::cout << "no such a student\n\n";
 					return;
 				}
-				p = p->_left;
 			}
-			else if (name < p->_name)
+			else if (p->_name > name)
 			{
-				if (p->_right == nullptr)
+				p1 = p->_right;
+				if (p1 == nullptr)
 				{
 					std::cout << "no such a student\n\n";
 					return;
 				}
-				p = p->_right;
 			}
-			else if (name == p->_name)
+			else if (p->_name == name)
 			{
-				if (numb < p->_numb)
+				if (p->_numb < numb)
 				{
-					if (p->_right == nullptr)
+					p1 = p->_left;
+					if (p1 == nullptr)
 					{
 						std::cout << "no such a student\n\n";
 						return;
 					}
-					p = p->_right;
 				}
-				else if (numb > p->_numb)
+				else if (p->_numb > numb)
 				{
-					if (p->_left == nullptr)
+					p1 = p->_right;
+					if (p1 == nullptr)
 					{
 						std::cout << "no such a student\n\n";
 						return;
 					}
-					p = p->_left;
 				}
+			}
+			if (p1->_name == name&&p1->_numb == numb)
+			{
+				if (p1 == p->_left)
+				{	
+					if (p1->_left == nullptr)
+					{
+						p->_left = p1->_right;
+					}
+					else
+					{
+						to_right(p1->_right, p1->_left);
+						p->_left = p1->_left;
+					}
+					return;
+				}
+				if (p1 == p->_right)
+				{
+					if (p1->_right == nullptr)
+					{
+						p->_right = p1->_left;
+					}
+					else
+					{
+						to_left(p1->_left, p1->_right);
+						p->_right = p1->_right;
+					}
+					return;
+				}
+			}
+			p = p1;
+			
+		}
+	}
+	void pop_grades(std::string name, int numb)
+	{
+		student* p = root_g;
+		if (p->_name == name && p->_numb == numb)
+		{
+			root_g = p->_next;
+			p->_next->_last = nullptr;
+			return;
+		}
+		while (1)
+		{
+			if (p->_name == name && p->_numb == numb)
+			{
+				p->_last->_next = p->_next;
+				p->_next->_last = p->_last;
+				return;
+			}
+			p = p->_next;
+			if (p == nullptr)
+			{
+				std::cout << "no scuh a sttudent\n\n";
+				return;
 			}
 		}
 	}
@@ -485,7 +530,7 @@ public:void insert(student& a)
 			if (p1->_left == nullptr)
 			{
 				p1->_left = p;
-				break;
+				return;
 			}
 			p1 = p1->_left;
 		}
@@ -497,7 +542,7 @@ public:void insert(student& a)
 			if (p1->_right == nullptr)
 			{
 				p1->_right = p;
-				break;
+				return;
 			}
 			p1 = p1->_right;
 		}
